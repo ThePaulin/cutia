@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
+import { LanguageToggle } from "./language-toggle";
 import { Menu02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@/utils/ui";
@@ -65,6 +66,7 @@ export function Header() {
 						</Button>
 					</div>
 					<div className="hidden items-center gap-2 md:flex">
+						<LanguageToggle />
 						<ThemeToggle />
 						<Link href="/projects">
 							<Button
@@ -152,14 +154,20 @@ export function Header() {
 								</Link>
 							</motion.div>
 						</nav>
-						<ThemeToggle
-							className="absolute right-8 bottom-8 size-10"
-							iconClassName="!size-[1.2rem]"
-							onToggle={(event) => {
-								event.preventDefault();
-								event.stopPropagation();
-							}}
-						/>
+						<div className="absolute right-8 bottom-8 flex items-center gap-2">
+							<LanguageToggle
+								className="size-10"
+								iconClassName="!size-[1.2rem]"
+							/>
+							<ThemeToggle
+								className="size-10"
+								iconClassName="!size-[1.2rem]"
+								onToggle={(event) => {
+									event.preventDefault();
+									event.stopPropagation();
+								}}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

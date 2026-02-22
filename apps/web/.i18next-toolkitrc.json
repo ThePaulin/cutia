@@ -1,0 +1,22 @@
+{
+  "publicDir": "./public",
+  "defaultLocale": "en",
+  "locales": ["en", "zh"],
+  "namespaces": ["translation"],
+  "verbose": true,
+  "extractor": {
+    "input": [
+      "./src/**/*.{ts,tsx}",
+      "!./src/**/*.spec.{ts,tsx}",
+      "!**/node_modules/**"
+    ],
+    "output": "./public/locales"
+  },
+  "scanner": {
+    "source": "./src/**/*.tsx",
+    "tsconfigPath": "./tsconfig.json",
+    "autoImport": false,
+    "ignoreFiles": [],
+    "ignoreText": []
+  }
+}

@@ -26,8 +26,10 @@ import {
 import { PropertyGroup } from "@/components/editor/panels/properties/property-item";
 import { useEditor } from "@/hooks/use-editor";
 import { DEFAULT_EXPORT_OPTIONS } from "@/constants/export-constants";
+import { useTranslation } from "@i18next-toolkit/react";
 
 export function ExportButton() {
+	const { t } = useTranslation();
 	const [isExportPopoverOpen, setIsExportPopoverOpen] = useState(false);
 	const editor = useEditor();
 
@@ -56,7 +58,7 @@ export function ExportButton() {
 					}}
 				>
 					<HugeiconsIcon icon={TransitionTopIcon} className="size-4" />
-					<span>Export</span>
+					<span>{t('Export')}</span>
 				</button>
 			</PopoverTrigger>
 			{hasProject && <ExportPopover onOpenChange={setIsExportPopoverOpen} />}
@@ -69,6 +71,7 @@ function ExportPopover({
 }: {
 	onOpenChange: (open: boolean) => void;
 }) {
+	const { t } = useTranslation();
 	const editor = useEditor();
 	const activeProject = editor.project.getActive();
 	const [format, setFormat] = useState<ExportFormat>(
@@ -149,7 +152,7 @@ function ExportPopover({
 				<>
 					<div className="flex items-center justify-between p-3 border-b">
 						<h3 className="font-medium text-sm">
-							{isExporting ? "Exporting project" : "Export project"}
+							{isExporting ? t("Exporting project") : t("Export project")}
 						</h3>
 					</div>
 
@@ -158,7 +161,7 @@ function ExportPopover({
 							<>
 								<div className="flex flex-col">
 									<PropertyGroup
-										title="Format"
+										title={t("Format")}
 										defaultExpanded={false}
 										hasBorderTop={false}
 									>
@@ -173,19 +176,19 @@ function ExportPopover({
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="mp4" id="mp4" />
 												<Label htmlFor="mp4">
-													MP4 (H.264) - Better compatibility
+													{t('MP4 (H.264) - Better compatibility')}
 												</Label>
 											</div>
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="webm" id="webm" />
 												<Label htmlFor="webm">
-													WebM (VP9) - Smaller file size
+													{t('WebM (VP9) - Smaller file size')}
 												</Label>
 											</div>
 										</RadioGroup>
 									</PropertyGroup>
 
-									<PropertyGroup title="Quality" defaultExpanded={false}>
+									<PropertyGroup title={t("Quality")} defaultExpanded={false}>
 										<RadioGroup
 											value={quality}
 											onValueChange={(value) => {
@@ -196,26 +199,26 @@ function ExportPopover({
 										>
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="low" id="low" />
-												<Label htmlFor="low">Low - Smallest file size</Label>
+												<Label htmlFor="low">{t('Low - Smallest file size')}</Label>
 											</div>
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="medium" id="medium" />
-												<Label htmlFor="medium">Medium - Balanced</Label>
+												<Label htmlFor="medium">{t('Medium - Balanced')}</Label>
 											</div>
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="high" id="high" />
-												<Label htmlFor="high">High - Recommended</Label>
+												<Label htmlFor="high">{t('High - Recommended')}</Label>
 											</div>
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="very_high" id="very_high" />
 												<Label htmlFor="very_high">
-													Very High - Largest file size
+													{t('Very High - Largest file size')}
 												</Label>
 											</div>
 										</RadioGroup>
 									</PropertyGroup>
 
-									<PropertyGroup title="Audio" defaultExpanded={false}>
+									<PropertyGroup title={t("Audio")} defaultExpanded={false}>
 										<div className="flex items-center space-x-2">
 											<Checkbox
 												id="include-audio"
@@ -225,7 +228,7 @@ function ExportPopover({
 												}
 											/>
 											<Label htmlFor="include-audio">
-												Include audio in export
+												{t('Include audio in export')}
 											</Label>
 										</div>
 									</PropertyGroup>
@@ -234,7 +237,7 @@ function ExportPopover({
 								<div className="p-3 pt-0">
 									<Button onClick={handleExport} className="w-full gap-2">
 										<Download className="size-4" />
-										Export
+										{t('Export')}
 									</Button>
 								</div>
 							</>
@@ -257,7 +260,7 @@ function ExportPopover({
 									className="w-full rounded-md"
 									onClick={handleCancel}
 								>
-									Cancel
+									{t('Cancel')}
 								</Button>
 							</div>
 						)}
@@ -283,6 +286,7 @@ function ExportError({
 	error: string;
 	onRetry: () => void;
 }) {
+	const { t } = useTranslation();
 	const [copied, setCopied] = useState(false);
 
 	const handleCopy = async () => {
@@ -294,7 +298,7 @@ function ExportError({
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-col gap-1.5">
-				<p className="text-destructive text-sm font-medium">Export failed</p>
+				<p className="text-destructive text-sm font-medium">{t('Export failed')}</p>
 				<p className="text-muted-foreground text-xs">{error}</p>
 			</div>
 
@@ -306,7 +310,7 @@ function ExportError({
 					onClick={handleCopy}
 				>
 					{copied ? <Check className="text-constructive" /> : <Copy />}
-					Copy
+					{t('Copy')}
 				</Button>
 				<Button
 					variant="outline"
@@ -315,7 +319,7 @@ function ExportError({
 					onClick={onRetry}
 				>
 					<RotateCcw />
-					Retry
+					{t('Retry')}
 				</Button>
 			</div>
 		</div>

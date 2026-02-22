@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DEFAULT_LOGO_URL, SOCIAL_LINKS } from "@/constants/site-constants";
 import { motion } from "motion/react";
+import { useTranslation } from "@i18next-toolkit/react";
 
 const floatingParticles = Array.from({ length: 6 }, (_, i) => ({
 	id: i,
@@ -17,6 +18,8 @@ const floatingParticles = Array.from({ length: 6 }, (_, i) => ({
 }));
 
 export function Hero() {
+	const { t } = useTranslation();
+
 	return (
 		<section className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center overflow-hidden px-4">
 			<div className="pointer-events-none absolute inset-0 -z-10">
@@ -96,7 +99,7 @@ export function Hero() {
 						className="dark:invert"
 					/>
 					<span className="text-muted-foreground text-sm font-medium">
-						Privacy-first video editing
+						{t('Privacy-first video editing')}
 					</span>
 				</motion.div>
 
@@ -106,7 +109,7 @@ export function Hero() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
 				>
-					Edit videos,
+					{t('Edit videos,')}
 					<br />
 					<motion.span
 						className="text-muted-foreground inline-block"
@@ -114,7 +117,7 @@ export function Hero() {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.7, delay: 0.35, ease: "easeOut" }}
 					>
-						right in your browser
+						{t('right in your browser')}
 					</motion.span>
 				</motion.h1>
 
@@ -124,8 +127,7 @@ export function Hero() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
 				>
-					A simple yet powerful open-source video editor. No uploads, no
-					tracking — your media stays on your device.
+					{t('A simple yet powerful open-source video editor. No uploads, no tracking — your media stays on your device.')}
 				</motion.p>
 
 				<motion.div
@@ -142,7 +144,7 @@ export function Hero() {
 							className="h-12 gap-2 px-8 text-base"
 						>
 							<Play className="size-4" />
-							Start editing
+							{t('Start editing')}
 						</Button>
 					</Link>
 					<Link
@@ -156,7 +158,7 @@ export function Hero() {
 							size="lg"
 							className="h-12 px-8 text-base"
 						>
-							View on GitHub
+							{t('View on GitHub')}
 							<ArrowRight className="size-4" />
 						</Button>
 					</Link>

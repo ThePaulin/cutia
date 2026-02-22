@@ -1,0 +1,15 @@
+import { setupI18nInstance } from "@i18next-toolkit/react";
+
+let initialized = false;
+
+export function initI18n() {
+	if (initialized) {
+		return;
+	}
+	initialized = true;
+
+	setupI18nInstance({
+		defaultLanguage: "en",
+		supportedLngs: ["en", "zh"],
+	});
+}

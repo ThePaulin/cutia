@@ -1,0 +1,60 @@
+"use client";
+
+import { Button } from "./ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { cn } from "@/utils/ui";
+import { useTranslation, setLanguage } from "@i18next-toolkit/react";
+import { Languages, Check } from "lucide-react";
+
+const SUPPORTED_LANGUAGES = [
+	{ code: "en", label: "English" },
+	{ code: "zh", label: "中文" },
+] as const;
+
+interface LanguageToggleProps {
+	className?: string;
+	iconClassName?: string;
+}
+
+export function LanguageToggle({
+	className,
+	iconClassName,
+}: LanguageToggleProps) {
+	const { i18n } = useTranslation();
+	const currentLanguage = i18n.language;
+
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					size="icon"
+					variant="ghost"
+					type="button"
+					className={cn("size-8", className)}
+				>
+					<Languages className={cn("!size-[1.1rem]", iconClassName)} />
+					<span className="sr-only">Switch language</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				{SUPPORTED_LANGUAGES.map((language) => (
+					<DropdownMenuItem
+						key={language.code}
+						className="flex items-center justify-between gap-2"
+						onClick={() => setLanguage(language.code)}
+					>
+						{language.label}
+						{currentLanguage === language.code && (
+							<Check className="size-3.5" />
+						)}
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+}
