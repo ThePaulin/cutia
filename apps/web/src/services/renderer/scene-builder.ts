@@ -17,6 +17,7 @@ import type { BaseNode } from "./nodes/base-node";
 import type { TBackground, TCanvasSize } from "@/types/project";
 import { DEFAULT_BLUR_INTENSITY } from "@/constants/project-constants";
 import { isMainTrack } from "@/lib/timeline";
+import { isBottomAlignedSubtitleText } from "@/lib/timeline/text-utils";
 
 export type BuildSceneParams = {
 	canvasSize: TCanvasSize;
@@ -173,6 +174,9 @@ export function buildScene(params: BuildSceneParams) {
 
 		for (const element of elements) {
 			if (element.type === "text") {
+				const textBaseline = isBottomAlignedSubtitleText({ element })
+					? "bottom"
+					: "middle";
 				contentNodes.push(
 					new TextNode({
 						...element,
@@ -181,7 +185,7 @@ export function buildScene(params: BuildSceneParams) {
 							y: canvasSize.height / 2,
 						},
 						canvasHeight: canvasSize.height,
-						textBaseline: "middle",
+						textBaseline,
 					}),
 				);
 			}

@@ -10,6 +10,7 @@ import type {
 } from "@/types/timeline";
 import type { MediaAsset } from "@/types/assets";
 import { FONT_SIZE_SCALE_REFERENCE } from "@/constants/text-constants";
+import { isBottomAlignedSubtitleText } from "@/lib/timeline/text-utils";
 
 type ScaleHandle = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -105,11 +106,13 @@ function computeTextBounds({
 	const estimatedHeight = scaledFontSize * 1.4;
 
 	const centerX = canvasWidth / 2 + element.transform.position.x;
-	const centerY = canvasHeight / 2 + element.transform.position.y;
+	const baseY = canvasHeight / 2 + element.transform.position.y;
+	const isBottomAligned = isBottomAlignedSubtitleText({ element });
+	const topY = isBottomAligned ? baseY - estimatedHeight : baseY - estimatedHeight / 2;
 
 	return {
 		left: (centerX - estimatedWidth / 2) * displayScale,
-		top: (centerY - estimatedHeight / 2) * displayScale,
+		top: topY * displayScale,
 		width: estimatedWidth * displayScale,
 		height: estimatedHeight * displayScale,
 		rotate: element.transform.rotate,

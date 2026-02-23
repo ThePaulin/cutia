@@ -44,13 +44,14 @@ export class TextNode extends BaseNode<TextNodeParams> {
 
 		const fontWeight = this.params.fontWeight === "bold" ? "bold" : "normal";
 		const fontStyle = this.params.fontStyle === "italic" ? "italic" : "normal";
+		const textBaseline = this.params.textBaseline || "middle";
 		const scaledFontSize = scaleFontSize({
 			fontSize: this.params.fontSize,
 			canvasHeight: this.params.canvasHeight,
 		});
 		renderer.context.font = `${fontStyle} ${fontWeight} ${scaledFontSize}px ${this.params.fontFamily}`;
 		renderer.context.textAlign = this.params.textAlign;
-		renderer.context.textBaseline = this.params.textBaseline || "middle";
+		renderer.context.textBaseline = textBaseline;
 		renderer.context.fillStyle = this.params.color;
 
 		const prevAlpha = renderer.context.globalAlpha;
@@ -70,9 +71,11 @@ export class TextNode extends BaseNode<TextNodeParams> {
 			if (renderer.context.textAlign === "left") bgLeft = 0;
 			if (renderer.context.textAlign === "right") bgLeft = -textW;
 
+			const backgroundTop =
+				textBaseline === "bottom" ? -textH - padY : -textH / 2 - padY;
 			renderer.context.fillRect(
 				bgLeft - padX,
-				-textH / 2 - padY,
+				backgroundTop,
 				textW + padX * 2,
 				textH + padY * 2,
 			);

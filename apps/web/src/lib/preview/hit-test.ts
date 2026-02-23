@@ -6,6 +6,7 @@ import type {
 import type { MediaAsset } from "@/types/assets";
 import { FONT_SIZE_SCALE_REFERENCE } from "@/constants/text-constants";
 import { isMainTrack } from "@/lib/timeline";
+import { isBottomAlignedSubtitleText } from "@/lib/timeline/text-utils";
 
 export interface HitResult {
 	trackId: string;
@@ -143,11 +144,6 @@ export function hitTestElements({
 		const candidate = candidates[i];
 		const { element, transform } = candidate;
 
-		const center = {
-			x: canvasWidth / 2 + transform.position.x,
-			y: canvasHeight / 2 + transform.position.y,
-		};
-
 		const size = getElementHalfSize({
 			element,
 			transform,
@@ -157,6 +153,16 @@ export function hitTestElements({
 		});
 
 		if (!size) continue;
+
+		const isBottomAlignedText =
+			element.type === "text" && isBottomAlignedSubtitleText({ element });
+		const centerY = isBottomAlignedText
+			? canvasHeight / 2 + transform.position.y - size.halfHeight
+			: canvasHeight / 2 + transform.position.y;
+		const center = {
+			x: canvasWidth / 2 + transform.position.x,
+			y: centerY,
+		};
 
 		if (
 			isPointInRotatedRect({
