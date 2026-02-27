@@ -1,4 +1,5 @@
 import type { TScene } from "./timeline";
+import type { AgentMessage } from "@/lib/ai/agent/types";
 
 export type TBackground =
 	| {
@@ -44,6 +45,7 @@ export interface TProject {
 	settings: TProjectSettings;
 	version: number;
 	timelineViewState?: TTimelineViewState;
+	agentMessages?: AgentMessage[];
 }
 
 export type TProjectSortKey = "createdAt" | "updatedAt" | "name" | "duration";

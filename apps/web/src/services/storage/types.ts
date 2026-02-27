@@ -5,6 +5,7 @@ import type {
 	TTimelineViewState,
 } from "@/types/project";
 import type { TScene } from "@/types/timeline";
+import type { AgentMessage } from "@/lib/ai/agent/types";
 
 export interface StorageAdapter<T> {
 	get(key: string): Promise<T | null>;
@@ -45,6 +46,7 @@ export type SerializedProject = Omit<TProject, "metadata" | "scenes"> & {
 	metadata: SerializedProjectMetadata;
 	scenes: SerializedScene[];
 	timelineViewState?: TTimelineViewState;
+	agentMessages?: AgentMessage[];
 };
 
 export interface StorageConfig {

@@ -13,7 +13,6 @@ interface AgentPersistedState {
 	config: AgentLLMConfig;
 	autoMode: boolean;
 	isOpen: boolean;
-	messages: AgentMessage[];
 }
 
 interface AgentState extends AgentPersistedState {
@@ -24,6 +23,8 @@ interface AgentState extends AgentPersistedState {
 	pendingConfirmation: PendingToolConfirmation | null;
 	streamingContent: string;
 
+	initMessages: (messages: AgentMessage[]) => void;
+	getMessages: () => AgentMessage[];
 	togglePanel: () => void;
 	sendMessage: (content: string) => Promise<void>;
 	confirmToolCall: () => void;
@@ -52,6 +53,18 @@ export const useAgentStore = create<AgentState>()(
 			currentToolCall: null,
 			pendingConfirmation: null,
 			streamingContent: "",
+
+			initMessages: (messages: AgentMessage[]) => {
+				set({
+					messages,
+					status: "idle",
+					currentToolCall: null,
+					pendingConfirmation: null,
+					streamingContent: "",
+				});
+			},
+
+			getMessages: () => get().messages,
 
 			togglePanel: () => {
 				set((prev) => ({ isOpen: !prev.isOpen }));
@@ -220,7 +233,10 @@ export const useAgentStore = create<AgentState>()(
 				config: state.config,
 				autoMode: state.autoMode,
 				isOpen: state.isOpen,
-				messages: state.messages,
+			}),
+			merge: (persisted, current) => ({
+				...(current as AgentState),
+				...(persisted as Partial<AgentPersistedState>),
 			}),
 		},
 	),
