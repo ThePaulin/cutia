@@ -94,6 +94,7 @@ export function TimelineElement({
 	onElementClick,
 	dragState,
 }: TimelineElementProps) {
+	const { t } = useTranslation();
 	const editor = useEditor();
 	const { selectedElements } = useElementSelection();
 	const { requestRevealMedia } = useAssetsPanelStore();
@@ -162,19 +163,19 @@ export function TimelineElement({
 								: undefined,
 					}}
 				>
-				<ElementInner
-					element={element}
-					track={track}
-					zoomLevel={zoomLevel}
-					isSelected={isSelected}
-					isBeingDragged={isBeingDragged}
-					hasAudio={hasAudio}
-					isMuted={isMuted}
-					mediaAssets={mediaAssets}
-					onElementClick={onElementClick}
-					onElementMouseDown={onElementMouseDown}
-					handleResizeStart={handleResizeStart}
-				/>
+					<ElementInner
+						element={element}
+						track={track}
+						zoomLevel={zoomLevel}
+						isSelected={isSelected}
+						isBeingDragged={isBeingDragged}
+						hasAudio={hasAudio}
+						isMuted={isMuted}
+						mediaAssets={mediaAssets}
+						onElementClick={onElementClick}
+						onElementMouseDown={onElementMouseDown}
+						handleResizeStart={handleResizeStart}
+					/>
 				</div>
 			</ContextMenuTrigger>
 			<ContextMenuContent className="z-200 w-64">
@@ -182,7 +183,7 @@ export function TimelineElement({
 					action="split"
 					icon={<HugeiconsIcon icon={ScissorIcon} />}
 				>
-					Split
+					{t("Split")}
 				</ActionMenuItem>
 				<CopyMenuItem />
 				{canElementHaveAudio(element) && hasAudio && (
@@ -197,7 +198,7 @@ export function TimelineElement({
 								action="detach-audio"
 								icon={<HugeiconsIcon icon={MusicNote03Icon} />}
 							>
-								Detach audio
+								{t("Detach audio")}
 							</ActionMenuItem>
 						)}
 					</>
@@ -220,7 +221,7 @@ export function TimelineElement({
 						action="duplicate-selected"
 						icon={<HugeiconsIcon icon={Copy01Icon} />}
 					>
-						Duplicate
+						{t("Duplicate")}
 					</ActionMenuItem>
 				)}
 				{selectedElements.length === 1 && hasMediaId(element) && (
@@ -229,13 +230,13 @@ export function TimelineElement({
 							icon={<HugeiconsIcon icon={Search01Icon} />}
 							onClick={(event) => handleRevealInMedia({ event })}
 						>
-							Reveal media
+							{t("Reveal media")}
 						</ContextMenuItem>
 						<ContextMenuItem
 							icon={<HugeiconsIcon icon={Exchange01Icon} />}
 							disabled
 						>
-							Replace media
+							{t("Replace media")}
 						</ContextMenuItem>
 					</>
 				)}
@@ -489,12 +490,13 @@ function ElementContent({
 }
 
 function CopyMenuItem() {
+	const { t } = useTranslation();
 	return (
 		<ActionMenuItem
 			action="copy-selected"
 			icon={<HugeiconsIcon icon={Copy01Icon} />}
 		>
-			Copy
+			{t("Copy")}
 		</ActionMenuItem>
 	);
 }
@@ -519,9 +521,10 @@ function MuteMenuItem({
 		);
 	};
 
+	const { t } = useTranslation();
 	return (
 		<ActionMenuItem action="toggle-elements-muted-selected" icon={getIcon()}>
-			{isMuted ? "Unmute" : "Mute"}
+			{isMuted ? t("Unmute") : t("Mute")}
 		</ActionMenuItem>
 	);
 }
@@ -548,12 +551,13 @@ function VisibilityMenuItem({
 		);
 	};
 
+	const { t } = useTranslation();
 	return (
 		<ActionMenuItem
 			action="toggle-elements-visibility-selected"
 			icon={getIcon()}
 		>
-			{isHidden ? "Show" : "Hide"}
+			{isHidden ? t("Show") : t("Hide")}
 		</ActionMenuItem>
 	);
 }
@@ -569,6 +573,7 @@ function DeleteMenuItem({
 	elementType: TimelineElementType["type"];
 	selectedCount: number;
 }) {
+	const { t } = useTranslation();
 	return (
 		<ActionMenuItem
 			action="delete-selected"
@@ -576,8 +581,10 @@ function DeleteMenuItem({
 			icon={<HugeiconsIcon icon={Delete02Icon} />}
 		>
 			{isMultipleSelected && isCurrentElementSelected
-				? `Delete ${selectedCount} elements`
-				: `Delete ${elementType === "text" ? "text" : "clip"}`}
+				? t("Delete {{count}} elements", { count: selectedCount })
+				: t("Delete {{type}}", {
+						type: elementType === "text" ? t("text") : t("clip"),
+					})}
 		</ActionMenuItem>
 	);
 }
@@ -629,11 +636,12 @@ function VideoEditSubmenu({
 	return (
 		<ContextMenuSub>
 			<ContextMenuSubTrigger>
-				<HugeiconsIcon icon={Edit02Icon} className="mr-2 size-4" />
+				<HugeiconsIcon icon={Edit02Icon} className="size-4" />
 				{t("Basic Edit")}
 			</ContextMenuSubTrigger>
 			<ContextMenuSubContent className="w-48">
 				<ContextMenuCheckboxItem
+					className="px-4"
 					checked={isMirrored}
 					onClick={toggleMirror}
 					onKeyDown={(event) => {
@@ -642,10 +650,11 @@ function VideoEditSubmenu({
 						}
 					}}
 				>
-					<HugeiconsIcon icon={FlipHorizontalIcon} className="mr-2 size-4" />
+					<HugeiconsIcon icon={FlipHorizontalIcon} className="size-4" />
 					{t("Mirror")}
 				</ContextMenuCheckboxItem>
 				<ContextMenuCheckboxItem
+					className="px-4"
 					checked={isReversed}
 					onClick={toggleReverse}
 					onKeyDown={(event) => {
@@ -654,7 +663,7 @@ function VideoEditSubmenu({
 						}
 					}}
 				>
-					<HugeiconsIcon icon={ArrowTurnBackwardIcon} className="mr-2 size-4" />
+					<HugeiconsIcon icon={ArrowTurnBackwardIcon} className="size-4" />
 					{t("Reverse")}
 				</ContextMenuCheckboxItem>
 			</ContextMenuSubContent>
