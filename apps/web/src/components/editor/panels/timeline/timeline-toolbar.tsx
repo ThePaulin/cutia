@@ -10,16 +10,11 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { SplitSquareHorizontal } from "lucide-react";
-import {
-	SplitButton,
-	SplitButtonLeft,
-	SplitButtonRight,
-	SplitButtonSeparator,
-} from "@/components/ui/split-button";
+
 import { Slider } from "@/components/ui/slider";
 import { TIMELINE_CONSTANTS } from "@/constants/timeline-constants";
 import { sliderToZoom, zoomToSlider } from "@/lib/timeline/zoom-utils";
-import { ScenesView } from "../../scenes-view";
+
 import { type TAction, invokeAction } from "@/lib/actions";
 import { cn } from "@/utils/ui";
 import { useTimelineStore } from "@/stores/timeline-store";
@@ -36,7 +31,6 @@ import {
 	Copy01Icon,
 	AlignLeftIcon,
 	AlignRightIcon,
-	Layers01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
@@ -64,8 +58,6 @@ export function TimelineToolbar({
 		<ScrollArea className="scrollbar-hidden">
 			<div className="flex h-10 items-center justify-between border-b px-2 py-1">
 				<ToolbarLeftSection />
-
-				<SceneSelector />
 
 				<ToolbarRightSection
 					zoomLevel={zoomLevel}
@@ -161,26 +153,6 @@ function ToolbarLeftSection() {
 					/>
 				</Tooltip>
 			</TooltipProvider>
-		</div>
-	);
-}
-
-function SceneSelector() {
-	const { t } = useTranslation();
-	const editor = useEditor();
-	const currentScene = editor.scenes.getActiveScene();
-
-	return (
-		<div>
-			<SplitButton className="border-foreground/10 border">
-				<SplitButtonLeft>{currentScene?.name || t('No Scene')}</SplitButtonLeft>
-				<SplitButtonSeparator />
-				<ScenesView>
-					<SplitButtonRight onClick={() => {}} type="button">
-						<HugeiconsIcon icon={Layers01Icon} className="size-4" />
-					</SplitButtonRight>
-				</ScenesView>
-			</SplitButton>
 		</div>
 	);
 }
